@@ -5,7 +5,6 @@ import (
 	"github.com/PhilippIspolatov/softline_test/internal/tools"
 	"github.com/PhilippIspolatov/softline_test/internal/user"
 	"github.com/jackc/pgx"
-	"github.com/sirupsen/logrus"
 )
 
 type UserRepository struct {
@@ -25,7 +24,6 @@ func (ur *UserRepository) Insert(user *models.User) error {
 		user.Email,
 		user.Password,
 		user.Phone).Scan(&user.Nickname); err != nil {
-		logrus.Error("REP: ", err)
 		return err
 	}
 
@@ -37,8 +35,7 @@ func (ur *UserRepository) Get(nickname string) (*models.User, error) {
 
 	if err := ur.db.QueryRow("SELECT * FROM USERS WHERE nickname = $1", nickname).Scan(
 		&User.Nickname, &User.Email, &User.Password, &User.Phone); err != nil {
-		logrus.Error("REP: ", err)
-		return nil, tools.AlreadyExist
+		return nil, tools.UserDoesNotExist
 	}
 
 	return User, nil

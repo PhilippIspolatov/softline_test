@@ -70,3 +70,9 @@ func (u *User) PasswordHash() {
 	hash.Write([]byte(u.Password))
 	u.Password = hex.EncodeToString(hash.Sum(nil))
 }
+
+func (u *User) CheckPassword(password string) bool {
+	hash := sha512.New()
+	hash.Write([]byte(password))
+	return hex.EncodeToString(hash.Sum(nil)) == u.Password
+}

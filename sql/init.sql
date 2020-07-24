@@ -12,9 +12,9 @@ CREATE TABLE users
 
 CREATE TABLE sessions
 (
-  nickname varchar(30) not null,
-  cookie varchar(50) not null,
-  expiration timestamp not null default current_timestamp,
-  foreign key (nickname) references users (nickname) on delete cascade
+    nickname varchar(30) not null,
+    cookie varchar(50) not null primary key,
+    expiration timestamp not null default current_timestamp,
+    foreign key (nickname) references users (nickname) on delete cascade
 );
 
